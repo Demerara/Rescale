@@ -41,15 +41,16 @@ rescale <- function(table, siteIDs, count, tissue.mean, tissue.SD, precip.mean, 
       Data.i <- calibration[calibration[,siteIDs]==Site.i,]
       n <- Data.i[,count]
       
-      for (j in 1:n){
         tissue.d2H[counter:(counter+n-1)] <- rnorm(n, mean=Data.i[1, tissue.mean], sd=Data.i[1, tissue.SD])
         precip.d2H[counter:(counter+n-1)] <- rnorm(n, mean=Data.i[1, precip.mean], sd=Data.i[1, precip.SD])
-        counter <- counter+1
-        lmResult.k <- lm(tissue.d2H~precip.d2H)
-        intercepts[k] <- coef(lmResult.k)[1]
-        slopes[k] <- coef(lmResult.k)[2]
+        counter <- n+1
+
         
-      }}}
+    }
+    lmResult.k <- lm(tissue.d2H~precip.d2H)
+    intercepts[k] <- coef(lmResult.k)[1]
+    slopes[k] <- coef(lmResult.k)[2]
+    }
   
   slope <- mean(slopes)
   intercept <-mean(intercepts)
